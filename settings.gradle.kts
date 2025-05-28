@@ -29,6 +29,7 @@ include(
     ":TipCalculator",
     ":Affirmations",
     ":TrainingCourses",
+    ":TrainingWoof",
 )
 project(":DiceRoller").projectDir = file("projects/DiceRoller")
 project(":GreetingCard").projectDir = file("projects/GreetingCard")
@@ -36,3 +37,4 @@ project(":HappyBirthday").projectDir = file("projects/HappyBirthday")
 project(":TipCalculator").projectDir = file("projects/TrainingTipCalculator")
 project(":Affirmations").projectDir = file("projects/Affirmations")
 project(":TrainingCourses").projectDir = file("projects/TrainingCourses")
+project(":TrainingWoof").projectDir = file("projects/TrainingWoof")
