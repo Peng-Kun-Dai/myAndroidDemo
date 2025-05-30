@@ -23,10 +23,13 @@ import com.example.trainingwoof.R
  * A data class to represent the information presented in the dog card
  */
 data class Dog(
-    @DrawableRes val imageResourceId: Int,
-    @StringRes val name: Int,
+    @DrawableRes
+    val imageResourceId: Int,
+    @StringRes
+    val name: Int,
     val age: Int,
-    @StringRes val hobbies: Int
+    @StringRes
+    val hobbies: Int
 )
 
 val dogs = listOf(
