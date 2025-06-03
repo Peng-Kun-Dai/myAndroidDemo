@@ -32,6 +32,7 @@ include(
     ":TrainingWoof",
     ":Superheroes",
     ":DessertClicker",
+    ":WirelessTool",
 )
 project(":DiceRoller").projectDir = file("projects/DiceRoller")
 project(":GreetingCard").projectDir = file("projects/GreetingCard")
@@ -42,3 +43,4 @@ project(":TrainingCourses").projectDir = file("projects/TrainingCourses")
 project(":TrainingWoof").projectDir = file("projects/TrainingWoof")
 project(":Superheroes").projectDir = file("projects/Superheroes")
 project(":DessertClicker").projectDir = file("projects/DessertClicker")
+project(":WirelessTool").projectDir = file("projects/WirelessTool")
