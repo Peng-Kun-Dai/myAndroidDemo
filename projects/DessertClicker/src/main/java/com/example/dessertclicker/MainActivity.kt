@@ -20,6 +20,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -71,10 +72,13 @@ import com.example.dessertclicker.data.Datasource
 import com.example.dessertclicker.model.Dessert
 import com.example.dessertclicker.ui.theme.DessertClickerTheme
 
+private const val TAG = "MainActivity"
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate Called")
         setContent {
             DessertClickerTheme {
                 // A surface container using the 'background' color from the theme
@@ -87,6 +91,38 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart Called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart Called")
+        //每次状态在 Created 和 Started 之间转换时，系统都不会调用此方法。
+        //仅当调用 onStop() 并且随后重启 activity 时，系统才会调用此方法。
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume Called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause Called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop Called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy Called")
     }
 }
 
@@ -116,20 +152,29 @@ fun determineDessertToShow(
 /**
  * Share desserts sold information using ACTION_SEND intent
  */
-private fun shareSoldDessertsInformation(intentContext: Context, dessertsSold: Int, revenue: Int) {
+private fun shareSoldDessertsInformation(
+    intentContext: Context,
+    dessertsSold: Int,
+    revenue: Int
+) {
     val sendIntent = Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(
-            Intent.EXTRA_TEXT,
-            intentContext.getString(R.string.share_text, dessertsSold, revenue)
+            Intent.EXTRA_TEXT, intentContext.getString(
+                R.string.share_text, dessertsSold, revenue
+            )
         )
         type = "text/plain"
     }
 
-    val shareIntent = Intent.createChooser(sendIntent, null)
+    val shareIntent = Intent.createChooser(
+        sendIntent, null
+    )
 
     try {
-        ContextCompat.startActivity(intentContext, shareIntent, null)
+        ContextCompat.startActivity(
+            intentContext, shareIntent, null
+        )
     } catch (e: ActivityNotFoundException) {
         Toast.makeText(
             intentContext,
@@ -167,8 +212,7 @@ private fun DessertClickerApp(
                         dessertsSold = dessertsSold,
                         revenue = revenue
                     )
-                },
-                modifier = Modifier
+                }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(
                         start = WindowInsets.safeDrawing.asPaddingValues()
@@ -178,8 +222,7 @@ private fun DessertClickerApp(
                     )
                     .background(MaterialTheme.colorScheme.primary)
             )
-        }
-    ) { contentPadding ->
+        }) { contentPadding ->
         DessertClickerScreen(
             revenue = revenue,
             dessertsSold = dessertsSold,
@@ -191,7 +234,9 @@ private fun DessertClickerApp(
                 dessertsSold++
 
                 // Show the next dessert
-                val dessertToShow = determineDessertToShow(desserts, dessertsSold)
+                val dessertToShow = determineDessertToShow(
+                    desserts, dessertsSold
+                )
                 currentDessertImageId = dessertToShow.imageId
                 currentDessertPrice = dessertToShow.price
             },
@@ -233,7 +278,8 @@ private fun DessertClickerAppBar(
 fun DessertClickerScreen(
     revenue: Int,
     dessertsSold: Int,
-    @DrawableRes dessertImageId: Int,
+    @DrawableRes
+    dessertImageId: Int,
     onDessertClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -292,7 +338,10 @@ private fun TransactionInfo(
 }
 
 @Composable
-private fun RevenueInfo(revenue: Int, modifier: Modifier = Modifier) {
+private fun RevenueInfo(
+    revenue: Int,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -312,7 +361,10 @@ private fun RevenueInfo(revenue: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun DessertsSoldInfo(dessertsSold: Int, modifier: Modifier = Modifier) {
+private fun DessertsSoldInfo(
+    dessertsSold: Int,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -334,6 +386,12 @@ private fun DessertsSoldInfo(dessertsSold: Int, modifier: Modifier = Modifier) {
 @Composable
 fun MyDessertClickerAppPreview() {
     DessertClickerTheme {
-        DessertClickerApp(listOf(Dessert(R.drawable.cupcake, 5, 0)))
+        DessertClickerApp(
+            listOf(
+                Dessert(
+                    R.drawable.cupcake, 5, 0
+                )
+            )
+        )
     }
 }
