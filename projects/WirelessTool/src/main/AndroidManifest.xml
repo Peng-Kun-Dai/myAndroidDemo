@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 基础权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 允许执行Shell命令 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 针对所有应用 -->
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 敏感权限 -->
+    <!--写入外部存储（Android 10+ 已废弃，仅兼容旧设备）。-->
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />-->
+    <!--（Android 11+）：允许访问所有文件（需用户手动授权，Google Play 审核严格）。-->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <!-- 删除权限 -->
+    <uses-permission
+        android:name="android.permission.DELETE_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- 查询所有应用列表，需要更加细化该权限 -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.GET_PACKAGES" />
+
+    <uses-permission android:name="android.permission"/>
+
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
         </intent>
     </queries>
     <!-- 或仅获取基础应用列表 -->
-    <uses-permission android:name="android.permission.GET_PACKAGES" />
-
 
 
     <application
@@ -26,11 +42,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WirelessTool"
-        tools:targetApi="31">
+        >
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.WirelessTool">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
